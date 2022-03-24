@@ -9,11 +9,11 @@ import matplotlib.pyplot as plt
 import warnings 
 import logging
 
-data_path = 'streamlit_app_images/'
+data_path = 'resources'
 
 img = data_path + '04_inv16.tiff'
 st.image(img)
-data_path = Path('streamlit_app_images/')
+data_path = Path(data_path)
 data = ImageDataLoaders.from_folder(data_path, train='val',
                                     valid='test', 
                                     batch_tfms=[*aug_transforms(flip_vert=False, max_lighting=0.1, max_zoom=1.0, max_warp=0, p_affine=0),Normalize.from_stats(*imagenet_stats)], 
@@ -23,7 +23,7 @@ data = ImageDataLoaders.from_folder(data_path, train='val',
                                     num_workers=2)
 
 learn = cnn_learner(data, models.resnet50, metrics=[error_rate])
-learn.load('resources/models/020232021_512_res50_round1.h5')
+learn.load('models/020232021_512_res50_round1.h5')
 learn.predict(img)
 
 gcam = GradCam(learn, img, None)
