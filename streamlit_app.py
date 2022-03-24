@@ -29,3 +29,4 @@ learn.predict(img)
 
 gcam = GradCam(learn, img, None)
 gcam.plot(full_size=True, plot_original=False, figsize(12, 6))
+st.img(img)
