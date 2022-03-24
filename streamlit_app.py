@@ -10,7 +10,7 @@ import warnings
 import logging
 
 data_path = 'streamlit_app_images/'
-# model_path = 'resources/models/'
+model_path = 'resources/models/'
 img = data_path + '04_inv16.tiff'
 st.image(img)
 
