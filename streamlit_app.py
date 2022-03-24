@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import warnings 
 import logging
 
-data_path = 'resources'
+data_path = 'resources/'
 
 img = data_path + '04_inv16.tiff'
 st.image(img)
