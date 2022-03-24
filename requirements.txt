@@ -4,8 +4,8 @@ adal==1.2.5
 argon2-cffi==20.1.0
 async-generator==1.10
 attrs==20.3.0
-azure-cognitiveservices-search==2.0.0
-azure-common==1.1.26
+# azure-cognitiveservices-search==2.0.0
+# azure-common==1.1.26
 backcall==0.2.0
 backports.functools-lru-cache==1.6.1
 bleach==3.2.1
