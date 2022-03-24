@@ -16,7 +16,7 @@ st.image(img)
 
 data = ImageDataLoaders.from_folder(data_path, 
                                     train='train',
-                                    valid='test, 
+                                    valid='test',
                                     batch_tfms=[*aug_transforms(flip_vert=False, max_lighting=0.1, max_zoom=1.0, max_warp=0, p_affine=0),Normalize.from_stats(*imagenet_stats)],
                                     bs=32, 
                                     resize_method=ResizeMethod.Squish, 
