@@ -23,7 +23,7 @@ data = ImageDataLoaders.from_folder(data_path, train='val',
                                     num_workers=2)
 
 learn = cnn_learner(data, models.resnet50, metrics=[error_rate])
-learn.load('020232021_512_res50_round1.h5')
+learn.load('020232021_512_res50_round1.h5', map_location='cpu')
 learn.predict(img)
 
 gcam = GradCam(learn, img, None)
