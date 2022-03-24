@@ -22,7 +22,7 @@ streamlit==1.2
 # decorator                                  4.4.2
 # defusedxml                                 0.6.0
 # entrypoints                                0.3
-fastai                                     2.2.5
+fastai==2.2.5
 fastai2                                    0.0.30
 fastai2-extensions                         0.0.31
 fastbook                                   0.0.14
