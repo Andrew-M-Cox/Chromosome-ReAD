@@ -28,7 +28,7 @@ data_path = Path(data_path)
 # learn = cnn_learner(data, models.resnet50, metrics=[error_rate])
 # defaults.device = torch.device('cpu')
 
-learn_inf = load_learner(Path(data_path/'models/03242022_resnet50.pkl'))
+learn_inf = load_learner(Path('resources/models/03242022_resnet50.pkl'))
 st.write(learn.predict(img))
 
 gcam = GradCam(learn, img, None)
