@@ -22,7 +22,7 @@ data = ImageDataLoaders.from_folder(data_path, train='val',
                                     size=(512, 512),
                                     num_workers=2)
 
-# learn = cnn_learner(data, models.resnet50, metrics=[error_rate])
+learn = cnn_learner(data, models.resnet50, metrics=[error_rate])
 # learn.load('resources/models/020232021_512_res50_round1.h5')
 # learn.predict(img)
 
