@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import warnings 
 import logging
 
-defaults.device = torch.device('cpu')
+
 data_path = 'resources/'
 img = data_path + '04_inv16.tiff'
 st.image(img)
@@ -23,6 +23,7 @@ data = ImageDataLoaders.from_folder(data_path, train='val',
                                     num_workers=2)
 
 learn = cnn_learner(data, models.resnet50, metrics=[error_rate])
+defaults.device = torch.device('cpu')
 learn.load('020232021_512_res50_round1.h5')
 learn.predict(img)
 
