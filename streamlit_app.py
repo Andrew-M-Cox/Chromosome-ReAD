@@ -37,11 +37,22 @@ from fastai.vision.widgets import *#Make the two text comments below a markdown 
 
 
 
-path = Path('resources/')
-learn_inf = load_learner(path/'fastai_resnet50.pkl', cpu=True)#declare a button,output,label widget
+#Make the two text comments below a markdown in your notebook
+# #Malaria Parasite Species Classifier
+# #You need to know the species of malaria for effective treatment? #Then upload an image of malaria parasite.
+
+# #declare path and load our export.pkl file
+path = Path('resources')
+learn_inf = load_learner(path/'export.pkl', cpu=True)
+
+#declare a button,output,label widget
 btn_upload = widgets.FileUpload()
 out_pl = widgets.Output()
-lbl_pred = widgets.Label()#define an on_data_change function which execute when an image is #uploaded.It gets the image uploaded,display the image,make a #prediction of the image and output prediction, probability of #predictionsdef on_data_change(change):    
+lbl_pred = widgets.Label()
+
+#define an on_data_change function which execute when an image is #uploaded.It gets the image uploaded,display the image,make a #prediction of the image and output prediction, probability of #predictions
+
+def on_data_change(change):    
     lbl_pred.value = ''     
     img = PILImage.create(btn_upload.data[-1])     
     out_pl.clear_output()     
