@@ -27,4 +27,4 @@ learn.load('resources/models/020232021_512_res50_round1.h5')
 learn.predict(img)
 
 gcam = GradCam(learn, img, None)
-st.image(gcam.plot(full_size=True, plot_original=False, figsize(12, 6)))
+st.image(gcam.plot(full_size=True, plot_original=False, figsize=(12, 6)))
