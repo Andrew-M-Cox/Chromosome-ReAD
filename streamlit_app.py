@@ -43,7 +43,7 @@ from fastai.vision.widgets import *#Make the two text comments below a markdown 
 
 # #declare path and load our export.pkl file
 path = Path('resources')
-learn_inf = load_learner(path/'export.pkl', cpu=True)
+learn_inf = load_learner(path/'fastai_resnet50.pkl', cpu=True)
 
 #declare a button,output,label widget
 btn_upload = widgets.FileUpload()
