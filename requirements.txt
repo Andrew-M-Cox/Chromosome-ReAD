@@ -1,6 +1,6 @@
 streamlit==1.2
 voila
-fastai==2.0.13
+fastai==2.2.5
 pillow<7
 packaging
 ipywidgets==7.5.1
