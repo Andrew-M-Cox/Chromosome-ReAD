@@ -12,7 +12,7 @@ import logging
 data_path = 'streamlit_app_images/'
 # model_path = 'resources/models/'
 img = data_path + '04_inv16.tiff'
-st.img(img)
+st.image(img)
 
 # data = ImageDataLoaders.from_folder(data_path, 
 #                                     train='train',
