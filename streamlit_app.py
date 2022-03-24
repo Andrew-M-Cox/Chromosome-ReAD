@@ -12,7 +12,7 @@ import warnings
 import logging
 
 data_path = 'streamlit_app_images/'
-model_path = 'resources/models/'
+
 img = data_path + '04_inv16.tiff'
 st.image(img)
 # data_path = Path('streamlit_app_images/')
@@ -26,7 +26,7 @@ st.image(img)
 
 # learn = cnn_learner(data, models.resnet50, metrics=[error_rate])
 
-torch.load(model_path + '020232021_512_res50_round1.h5.pth')
+torch.load('resources/models/020232021_512_res50_round1.h5.pth')
 # learn.predict(img)
 
 # gcam = GradCam(learn, img, None)
