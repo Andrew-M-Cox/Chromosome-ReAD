@@ -14,9 +14,9 @@ model_path = 'resources/models/'
 img = data_path + '04_inv16.tiff'
 st.image(img)
 data_path = Path('streamlit_app_images/')
-data = ImageDataLoaders.from_folder(data_path, train='train', valid='test', batch_tfms=[*aug_transforms(flip_vert=False, max_lighting=0.1, max_zoom=1.0, max_warp=0, p_affine=0),Normalize.from_stats(*imagenet_stats)], bs=32, resize_method=ResizeMethod.Squish, size=(512, 512), num_workers=2)
+# data = ImageDataLoaders.from_folder(data_path, train='train', valid='test', batch_tfms=[*aug_transforms(flip_vert=False, max_lighting=0.1, max_zoom=1.0, max_warp=0, p_affine=0),Normalize.from_stats(*imagenet_stats)], bs=32, resize_method=ResizeMethod.Squish, size=(512, 512), num_workers=2)
 
-# learn = cnn_learner(data, models.resnet50, metrics=[error_rate])
+learn = cnn_learner(models.resnet50, metrics=[error_rate])
 # learn.load(model_path + '020232021_512_res50_round1.h5.pth')
 # learn.predict(img)
 
