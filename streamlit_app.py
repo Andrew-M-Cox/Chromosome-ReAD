@@ -42,7 +42,7 @@ from fastai.vision.widgets import *#Make the two text comments below a markdown 
 # #You need to know the species of malaria for effective treatment? #Then upload an image of malaria parasite.
 
 # #declare path and load our export.pkl file
-path = Path('resources')
+path = Path('resources/models/')
 learn_inf = load_learner(path/'fastai_resnet50.pkl', cpu=True)
 
 #declare a button,output,label widget
