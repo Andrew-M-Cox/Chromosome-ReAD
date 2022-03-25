@@ -9,7 +9,6 @@ from fastai.vision.core import *
 from fastai2_extensions.interpret.all import *
 from torchvision.io.image import read_image
 from torchvision.transforms.functional import normalize, resize, to_pil_image
-from torchcam.methods import SmoothGradCAMpp
 import numpy as np
 import matplotlib.pyplot as plt
 import warnings 
