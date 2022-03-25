@@ -169,7 +169,6 @@ def imgGen2(img1):
     # #img3.save('resultp.png')
     # return img2	
 
-
 if uploaded_file is not None:
     src_image = load_image(uploaded_file)
     # image = Image.open(uploaded_file)	
