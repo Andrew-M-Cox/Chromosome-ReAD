@@ -16,111 +16,127 @@ import warnings
 import logging
 
 
+from io import BytesIO
+
+
 import streamlit as st
-import pandas as pd
+from numpy import load
+from numpy import expand_dims
+from matplotlib import pyplot
+from PIL import Image, ImageFile, ImageDraw, ImageFont
+import numpy as np
+import os
+
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 
-# To interate through results
-from collections import Counter
-
-# For Download button (Johannes)
-# from functionforDownloadButtons import download_button
-from requests_html import HTMLSession
-
-# region Layout size
-
-session = HTMLSession()
-
-st.set_page_config(page_title="Q&A Generator", page_icon="🎈")
-
-def _max_width_():
-    max_width_str = f"max-width: 1700px;"
-    st.markdown(
-        f"""
-    <style>
-    .reportview-container .main .block-container{{
-        {max_width_str}
-    }}
-    </style>    
-    """,
-        unsafe_allow_html=True,
-    )
-
-_max_width_()
-
-# endregion Layout size 
-
-# region Top area 
-
-# c30, c32 = st.columns([1.9, 1])
-
-# with c30:
-#     st.image("WhatTheFaq.png", width=480)
-#     st.header("")
-# 
-# with c32:
-#     st.header("")
-#     st.text("")
-#     st.header("")
-#     st.markdown(
-#         "###### Made in [![this is an image link](https://i.imgur.com/iIOA6kU.png)](https://www.streamlit.io/)&nbsp, with :heart: by [@DataChaz](https://www.charlywargnier.com/) &nbsp | &nbsp [![this is an image link](https://i.imgur.com/thJhzOO.png)](https://www.buymeacoffee.com/cwar05)"
-#     )
-#     st.text("")
-
-st.image(
-    "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/person-raising-hand_1f64b.png",
-    width=100,
-)
-
-
+# st.header("Generate ASCII images using GAN")
+# st.write("Choose any image and get corresponding ASCII art:")
 st.title("Chromosome Predictor")
 
 st.write("This Chromosome Recurrent Abnormality Detector (ReAD) generates quality predictions from single chromosome images.")
 
 st.header("")
 
-c3, c4, c5 = st.columns([1, 6, 1])
+# data_path = 'resources/'
 
-data_path = 'resources/'
+# images = {
+#         "Chr16": data_path+'65_chr16b.png',
+#         "Inv16": data_path+'04_inv16.tiff' ,
+#         "Unknown": data_path+'04_unk_ab_7.tiff',
+#         }
 
-with c4:
+# img = st.sidebar.selectbox("Select your chart.", list(images.keys()))
 
-    with st.form("Form"):
-        
-        images = {
-                "Chr16": data_path+'65_chr16b.png',
-                "Inv16": data_path+'04_inv16.tiff' ,
-                "Unknown": data_path+'04_unk_ab_7.tiff',
-                }
+# st.image(images[img])
 
-        img = st.sidebar.selectbox("Select your chart.", list(images.keys()))
-        # URLBox = st.text_input("👇 Choose an image below to get started!")
-        # cap = 1000
-        st.image(images[img])
-        # submitted = st.form_submit_button("Get your Q&A pairs")
+    
+uploaded_file = st.file_uploader("Choose an image...")
 
-    c = st.container()
+def asciiart(in_f, SC, GCF,  out_f, color1='black', color2='blue', bgcolor='white'):
 
-    if not submitted and not URLBox:
-        st.stop()
+    # The array of ascii symbols from white to black
+    chars = np.asarray(list(' .,:irs?@9B&#'))
 
-    if submitted and not URLBox:
-        st.warning("☝️ Please add a URL")
-        st.stop()
+    # Load the fonts and then get the the height and width of a typical symbol 
+    # You can use different fonts here
+    font = ImageFont.load_default()
+    letter_width = font.getsize("x")[0]
+    letter_height = font.getsize("x")[1]
 
-selector = "p"
+    WCF = letter_height/letter_width
+
+    #open the input file
+    img = Image.open(in_f)
 
 
+    #Based on the desired output image size, calculate how many ascii letters are needed on the width and height
+    widthByLetter=round(img.size[0]*SC*WCF)
+    heightByLetter = round(img.size[1]*SC)
+    S = (widthByLetter, heightByLetter)
 
-try:
-    with session.get(URLBox) as r:
-        paragraph = r.html.find(selector, first=False)
-        text = " ".join([p.text for p in paragraph])
-   
-    img = data_path + '04_inv16.tiff'
-    st.image(img)
-    data_path = Path(data_path)
-    data_path.ls()
+    #Resize the image based on the symbol width and height
+    img = img.resize(S)
+    
+    #Get the RGB color values of each sampled pixel point and convert them to graycolor using the average method.
+    # Refer to https://www.johndcook.com/blog/2009/08/24/algorithms-convert-color-grayscale/ to know about the algorithm
+    img = np.sum(np.asarray(img), axis=2)
+    
+    # Normalize the results, enhance and reduce the brightness contrast. 
+    # Map grayscale values to bins of symbols
+    img -= img.min()
+    img = (1.0 - img/img.max())**GCF*(chars.size-1)
+    
+    # Generate the ascii art symbols 
+    lines = ("\n".join( ("".join(r) for r in chars[img.astype(int)]) )).split("\n")
+
+    # Create gradient color bins
+    nbins = len(lines)
+    #colorRange =list(Color(color1).range_to(Color(color2), nbins))
+
+    #Create an image object, set its width and height
+    newImg_width= letter_width *widthByLetter
+    newImg_height = letter_height * heightByLetter
+    newImg = Image.new("RGBA", (newImg_width, newImg_height), bgcolor)
+    draw = ImageDraw.Draw(newImg)
+
+    # Print symbols to image
+    leftpadding=0
+    y = 0
+    lineIdx=0
+    for line in lines:
+        color = 'blue'
+        lineIdx +=1
+
+        draw.text((leftpadding, y), line, '#0000FF', font=font)
+        y += letter_height
+
+    # Save the image file
+
+    #out_f = out_f.resize((1280,720))
+    newImg.save(out_f)
+
+
+def load_image(filename, size=(512,512)):
+	# load image with the preferred size
+	pixels = Image.open(filename) 
+    
+	# convert to numpy array
+	# pixels = img_to_array(pixels)
+	# scale from [0,255] to [-1,1]
+	# pixels = (pixels - 127.5) / 127.5
+	# # reshape to 1 sample
+	# pixels = expand_dims(pixels, 0)
+	return pixels
+
+
+def imgGen2(img1):
+
+    # img = data_path + '04_inv16.tiff'
+    st.write('Predicting chromosome identity for image.')
+    st.image(img1)
+
+    data_path = Path('resources')
     data = ImageDataLoaders.from_folder(data_path, train='val',
                                         valid='test', 
                                         batch_tfms=[*aug_transforms(flip_vert=False, max_lighting=0.1, max_zoom=1.0, max_warp=0, p_affine=0),Normalize.from_stats(*imagenet_stats)], 
@@ -128,108 +144,41 @@ try:
                                         resize_method=ResizeMethod.Squish, 
                                         size=(512, 512),
                                         num_workers=0)
-
     learn = cnn_learner(data, models.resnet50, metrics=[error_rate])
     defaults.device = torch.device('cpu')
     learn.load('03242022_resnet50.h5')
     # learn_inf = load_learner('resources/models/03242022_resnet50.pkl')
-    preds=learn.predict(img)
+    preds=learn.predict(img1)
     st.write(preds)
 
 
-    gcam = GradCam(learn, img, None)
+    gcam = GradCam(learn, img1, None)
     st.set_option('deprecation.showPyplotGlobalUse', False)
     st.pyplot(gcam.plot(full_size=False, plot_original=True, figsize=(12, 6)))
+    return None
+    # inputf = img1  # Input image file name
+
+    # SC = 0.1    # pixel sampling rate in width
+    # GCF= 2      # contrast adjustment
+
+    # asciiart(inputf, SC, GCF, "results.png")   #default color, black to blue
+    # asciiart(inputf, SC, GCF, "results_pink.png","blue","pink")
+    # img = Image.open(img1)
+    # img2 = Image.open('results.png').resize(img.size)
+    # #img2.save('result.png')
+    # #img3 = Image.open('results_pink.png').resize(img.size)
+    # #img3.save('resultp.png')
+    # return img2	
 
 
-except:
-    c.error(
-        "🚫 The URL seems invalid. Please ensure you've added 'https://' or 'http://' at the start of the URL!"
-    )
-    st.stop()
+if uploaded_file is not None:
+    src_image = load_image(uploaded_file)
+    # image = Image.open(uploaded_file)	
+    src_image.save('predict.png')
+    # st.image(uploaded_file, caption='Input Image', use_column_width=True)
+    #st.write(os.listdir())
+    im = imgGen2('predict.png')	
+    # st.image(im, caption='Predicted', use_column_width=True) 	
 
-text2 = (text[:cap] + "..") if len(text) > cap else text
-lenText = len(text2)
 
-if lenText > cap:
-    c.warning(
-        "We will build the Q&A pairs based on the first 1,000 characters"
-    )
-    pass
-else:
-    pass
 
-with st.expander(" ↕️ Toggle to check extracted text ", expanded=False):
-    st.header("")
-    a = "The full text extraction is " + str(len(text)) + " characters long"
-    st.header("")
-    st.write(text2)
-    st.header("")
-    annotated_text(
-        (a, "", "#8ef"),
-    )
-    st.header("")
-
-try:
-    nlp = pipeline("multitask-qa-qg")
-    faqs = nlp(text2)
-
-    st.markdown("#### **Select your favourite Q&A pairs **")
-    st.header("")
-
-    from collections import Counter
-
-    k = [x["answer"] for x in faqs]
-
-    new_faqs = []
-
-    for i in Counter(k):
-        all = [x for x in faqs if x["answer"] == i]
-        new_faqs.append(max(all, key=lambda x: x["answer"]))
-
-    c19, c20 = st.columns([3, 1.8])
-
-    a_list = []
-
-    with c19:
-        filtered_Qs = [
-            item for item in new_faqs if st.checkbox(item["question"], key=100)
-        ]
-
-    with c20:
-        filtered_As = [
-            itemw for itemw in new_faqs if st.checkbox(itemw["answer"], key=1000)
-        ]
-
-    df = pd.DataFrame(filtered_Qs)
-    df2 = pd.DataFrame(filtered_As)
-    frames = [df, df2]
-    result = pd.concat(frames)
-    result = result.drop_duplicates(subset=["question", "answer"])
-    result.index += 1
-
-    st.header("")
-
-    st.markdown("#### ** Download your selected Q&A pairs! **")
-    st.header("")
-
-    if result.empty:
-        b = "To download your Q&A's you need to start selecting them! ☝️"
-        annotated_text(
-            (b, "", "#faa"),
-        )
-
-    else:
-        result = result[["question", "answer"]]
-        CSVButton2 = download_button(
-            result, "Downloaded_Q&As.csv", "📥 Download your Q&As"
-        )
-        st.table(result)
-
-except Exception as e:
-    st.warning(
-        f"""
-    🔮 **Snap!** Seems like there's an issue with that URL, please try another one. If the issue persists, [reach me out on Gitter!](https://gitter.im/DataChaz/what-the-FAQ)
-    """
-    )
-    st.stop()
