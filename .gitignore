@@ -1,6 +1,7 @@
 # Repo-specific
 resources/feb2021_abclass
 resources/feb2021_abclass.zip
+resources/models_old/
 configs/
 output/
 *.out
