@@ -158,7 +158,7 @@ def imgGen2(img1):
     st.write('Predicting chromosome identity for image.')
     st.image(img1)
 
-    checkFiles = ("resources/models/03242022_resnet50.h5.pth")
+    checkFiles = ["resources/models/03242022_resnet50.h5.pth"]
     for path in checkFiles:
         if os.path.exists(path) == False:
             msg = st.warning("🚩 Models need to be downloaded... ")
