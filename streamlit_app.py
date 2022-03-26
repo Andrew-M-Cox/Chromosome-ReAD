@@ -161,8 +161,9 @@ def imgGen2(img1):
     checkFiles = ("resources/models/03242022_resnet50.h5.pth")
     for path in checkFiles:
         if os.path.exists(path) == False:
+            msg = st.warning("🚩 Models need to be downloaded... ")
             download_model(path)
-
+    msg.success("Model completely downloaded ✅")
     data_path = Path('resources')
     data = ImageDataLoaders.from_folder(data_path, train='val',
                                         valid='test', 
