@@ -158,7 +158,7 @@ def imgGen2(img1):
     st.write('Predicting chromosome identity for image.')
     st.image(img1)
 
-    checkFiles = ("03242022_resnet50.h5.pth")
+    checkFiles = ("resources/models/03242022_resnet50.h5.pth")
     for path in checkFiles:
         if os.path.exists(path) == False:
             download_model()
@@ -177,7 +177,6 @@ def imgGen2(img1):
     # learn_inf = load_learner('resources/models/03242022_resnet50.pkl')
     preds=learn.predict(img1)
     st.write(preds)
-
 
     gcam = GradCam(learn, img1, None)
     st.set_option('deprecation.showPyplotGlobalUse', False)
