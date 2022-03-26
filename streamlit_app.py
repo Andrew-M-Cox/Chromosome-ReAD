@@ -128,7 +128,7 @@ def load_image(filename, size=(512,512)):
 	# pixels = expand_dims(pixels, 0)
 	return pixels
 
-def download_model():
+def download_model(path):
     print('I miss :', path)
     msg = st.warning("🚩 Models need to be downloaded... ")
     try:
@@ -161,7 +161,7 @@ def imgGen2(img1):
     checkFiles = ("resources/models/03242022_resnet50.h5.pth")
     for path in checkFiles:
         if os.path.exists(path) == False:
-            download_model()
+            download_model(path)
 
     data_path = Path('resources')
     data = ImageDataLoaders.from_folder(data_path, train='val',
