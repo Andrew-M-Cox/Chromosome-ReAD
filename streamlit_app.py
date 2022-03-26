@@ -13,7 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import warnings 
 import logging
-
+import requests
 
 from io import BytesIO
 
