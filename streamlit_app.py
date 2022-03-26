@@ -142,7 +142,7 @@ def download_model():
             # r_npy = requests.get(url_npy, allow_redirects=True)
             # r_bin = requests.get(url_bin, allow_redirects=True)
 
-            open("03242022_resnet50.h5.pth", 'wb').write(r_pth.content)
+            open("resources/models/03242022_resnet50.h5.pth", 'wb').write(r_pth.content)
             # open("label_embeddings.npy", 'wb').write(r_npy.content)
             # open("distilbert-dlf/pytorch_model.bin",
                 #  'wb').write(r_bin.content)
