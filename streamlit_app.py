@@ -134,7 +134,7 @@ def download_model():
     try:
         with st.spinner('Initiating...'):
             time.sleep(3)
-            url_pth = "https://www.dropbox.com/s/2kf84sfvnqh3gin/03242022_resnet50.h5.pth?dl=0
+            url_pth = "https://www.dropbox.com/s/2kf84sfvnqh3gin/03242022_resnet50.h5.pth?dl=0"
             # url_npy = "https://www.dl.dropboxusercontent.com/s/...."
             # url_bin = "https://www.dl.dropboxusercontent.com/s/..."
 
