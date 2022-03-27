@@ -128,42 +128,12 @@ def load_image(filename, size=(512,512)):
 	# pixels = expand_dims(pixels, 0)
 	return pixels
 
-def download_model(path):
-    print('I miss :', path)
-    msg = st.warning("🚩 Models need to be downloaded... ")
-    try:
-        with st.spinner('Initiating...'):
-            time.sleep(3)
-            url_pth = "https://www.dropbox.com/s/2kf84sfvnqh3gin/03242022_resnet50.h5.pth?dl=0"
-            # url_npy = "https://www.dl.dropboxusercontent.com/s/...."
-            # url_bin = "https://www.dl.dropboxusercontent.com/s/..."
-
-            r_pth = requests.get(url_pth, allow_redirects=True)
-            # r_npy = requests.get(url_npy, allow_redirects=True)
-            # r_bin = requests.get(url_bin, allow_redirects=True)
-
-            open("resources/models/03242022_resnet50.h5.pth", 'wb').write(r_pth.content)
-            # open("label_embeddings.npy", 'wb').write(r_npy.content)
-            # open("distilbert-dlf/pytorch_model.bin",
-                #  'wb').write(r_bin.content)
-            del r_pth, 
-            # r_npy, r_bin
-            msg.success("Download was successful ✅")
-    except:
-        msg.error("Error downloading model files...😥")
-
 def imgGen2(img1):
 
     # img = data_path + '04_inv16.tiff'
     st.write('Predicting chromosome identity for image.')
     st.image(img1)
 
-    checkFiles = ["resources/models/03242022_resnet50.h5.pth"]
-    for path in checkFiles:
-        if os.path.exists(path) == False:
-            msg = st.warning("🚩 Models need to be downloaded... ")
-            download_model(path)
-    msg.success("Model completely downloaded ✅")
     data_path = Path('resources')
     data = ImageDataLoaders.from_folder(data_path, train='val',
                                         valid='test', 
