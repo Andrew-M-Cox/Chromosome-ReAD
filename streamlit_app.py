@@ -132,7 +132,7 @@ def imgGen2(img1):
 
     # img = data_path + '04_inv16.tiff'
     st.write('Predicting chromosome identity for image.')
-    st.image(img1)
+    # st.image(img1)
 
     data_path = Path('resources')
     data = ImageDataLoaders.from_folder(data_path, train='val',
