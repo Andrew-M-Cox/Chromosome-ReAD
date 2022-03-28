@@ -1,18 +1,19 @@
 streamlit==1.2
 requests>=2.27.1
 voila
-numpy>=1.22.3
+# numpy>=1.22.3
 fastai==2.2.5
-matplotlib>=3.5.1
-pillow<7
-streamlit>=1.8.0
-packaging
-Pillow>=9.0.1
-ipywidgets==7.5.1
-torch==1.10.2
+# matplotlib>=3.5.1
+# pillow<7
+# streamlit>=1.8.0
+# packaging
+# Pillow>=9.0.1
+# ipywidgets==7.5.1
+# torch==1.10.2
 # torch==1.7.0
-torchvision==0.11.3
+# torchvision==0.11.3
 # torchvision==0.8.1
 fastai==2.5.5
 fastai2-extensions==0.0.31
 matplotlib-venn==0.11.6
+
