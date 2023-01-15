@@ -78,7 +78,7 @@
 
 <!-- MANUSCRIPT --> 
 ## Manuscript
-This work has been published by BMC Bioinformatics. Please check out [the paper](https://academic.oup.com/bioinformatics/advance-article-abstract/doi/10.1093/bioinformatics/btab822/6454943) and reach out with any questions or comments! 
+This work has been published in Bioinformatics, an Oxford Academic journal. Please check out [the paper](https://academic.oup.com/bioinformatics/advance-article-abstract/doi/10.1093/bioinformatics/btab822/6454943) and reach out with any questions or comments! 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
